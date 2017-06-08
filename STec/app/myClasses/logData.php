@@ -11,7 +11,7 @@
          * Almacena el array de datos del usuario
          * @var array() 
          */
-        private static $data;
+        public static $data;
 
         /**
          * variable type

@@ -1,6 +1,15 @@
 <?php
      use App\myClasses\dbConnection;
      use App\myClasses\logData;
+    use Illuminate\Support\Facades\DB;
+    $nuevos = DB::table("ticket_sus")->join("estados", "ticket_sus.id_estado", "estados.id_estado")->where("estado", "Nuevo")->groupBy("estado")->count();
+    $sin = DB::table("ticket_sus")->join("estados", "ticket_sus.id_estado", "estados.id_estado")->where("estado", "Sin resolver")->groupBy("estado")->count();
+    $completado = DB::table("ticket_sus")->join("estados", "ticket_sus.id_estado", "estados.id_estado")->where("estado", "Completado")->groupBy("estado")->count();
+    $espera = DB::table("ticket_sus")->join("estados", "ticket_sus.id_estado", "estados.id_estado")->where("estado", "Espera")->groupBy("estado")->count();
+    $diferido = DB::table("ticket_sus")->join("estados", "ticket_sus.id_estado", "estados.id_estado")->where("estado", "Diferido")->groupBy("estado")->count();
+    
+    $todo = $nuevos + $sin + $completado + $espera +  $diferido;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +22,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SU</title>
+    <title>Super Usuario</title>
 
       <!-- Bootstrap Core CSS -->
     <link href="../../dataSource/css/templates/bootstrap.css" rel="stylesheet">
@@ -29,13 +38,15 @@
 
     <!-- FontsAwsome CSS -->
     <link href="../../dataSource/css/templates/font-awesome.css" rel="stylesheet">
-    <link rel='shortcut icon' href='../dataSource/img/favicon.png' type='image/x-icon'/>
+    <link rel='shortcut icon' href='../dataSource/img/servicio3.png' type='image'/>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
+    <scrip src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 
 </head>
 
@@ -44,6 +55,7 @@
     <div id="wrapper">
 
         <!-- Navigation -->
+
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -53,7 +65,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="/..">
-                <IMG SRC="/dataSource/img/SISAL3.png" WIDTH=120 HEIGHT=37 ALT="SISAL">  
+                <IMG SRC="/dataSource/img/servicio2.png" WIDTH=150 ALT="ServicioTec">  
                 </a>
             </div>
             <!-- /.navbar-header -->
@@ -76,164 +88,91 @@
             </ul>
             <!-- /.navbar-top-links -->
 
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li>
-                            <a href="/dashboard"><i class="fa fa-dashboard fa-fw"></i> Inicio</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-table fa-fw"></i>Personal<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
+			<div class="navigation">
+				<div class="container">					
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse.collapse">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+					</div>
+					
+					<div class="navbar-collapse collapse">							
+						<div class="menu">
+							<ul class="nav nav-tabs" role="tablist">
                                 <li>
-                                    <a href="/Personal/?type=doctors">Doctores</a>
+                                    <a href="/dashboard"><i class="fa fa-dashboard fa-fw"></i> Inicio</a>
+                                </li>
+                                 <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        <i class="fa fa-user fa-fw"></i> Peticiones <i class="fa fa-caret-down"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-user">
+                                            <li>
+                                                <a href="/Usuarios/?type=pendientes">Pendientes</a>
+                                            </li>
+                                            
+                                            <li>
+                                                <a href="/Usuarios/?type=rechazados">Rechazadas</a>
+                                            </li>
+                                    </ul>
+                                <!-- /.dropdown-user -->
                                 </li>
                                 
                                 <li>
-                                    <a href="/Personal/?type=recepcionist">Recepcionistas</a>
+                                    <a href="/foro"><i class="fa fa-book fa-fw"></i> Foro</a>
                                 </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                        <li>
-                            <a href="/medicine"><i class="fa fa-medkit fa-fw"></i> Medicina por aprobar</a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- /.sidebar-collapse -->
-            </div>
+                                <li>
+                                    <a href="/knowledge"><i class="fa fa-circle fa-fw"></i> Knowledge</a>
+                                </li>
+                                <li>
+                                    <a href="/tickets"><i class="fa fa-ticket fa-fw"></i> Tickets</a>
+                                </li>
+                                <li>
+                                    <a href="/inventario"><i class="fa fa-square fa-fw"></i> Inventario</a>
+                                </li>				
+							</ul>
+						</div>
+					</div>				
+				</div>
+			</div>	
+            
             <!-- /.navbar-static-side -->
         </nav>
-       <div id="page-wrapper">
-            <div class="row">
 
-                <div class="col-lg-10">
-                    <form>
-                        <div class="panel panel-default"aria-multiselectable="true">
+            
                             
                             <div class="panel-heading">
-                                <!-- QUEDA ELIMINADA LA FUNCION DE EDITAR
-                                <span style="float:right; padding-top:10px;"><input class="btn btn-lg btn-success" type="submit" value="Guardar Cambios"/></span>
-                                -->
-                                <span><h2>Administrador: <?php echo logData::getData('nombre') . " " . logData::getData('apellidoPaterno') . " " . logData::getData('apellidoMaterno'); ?></h2></span>
+                                <span><h2>Administrador: <?php echo logData::getData('nombre') . " " . logData::getData('apellido'); ?></h2></span>
                             </div>
                             
                             <div id="tablist">
                                 <!-- Desplegable información Personal--> 
                                 <div>
                                     <div class="panel-heading">
-                                        <h4>Información personal</h2>
+                                        <h4>Dashboard.</h2>
                                     </div> 
-                                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                    <tr><td>
-                                        Nombre:
-                                        <div class="form-group">
-                                            <input class="form-control" type="text" id="nombre" name="nombre" placeholder="Nombre" style="height: 30px; width: 80%;" value="<?php echo logData::getData('nombre'); ?>" disabled/>
-                                        </div>   
+                                        <table>
+                                        <tr>
+                                        <td>
+                                        <div>
+                                            <canvas id="myChart" width="300" height="300"></canvas>
+                                        </div>
                                         </td>
                                         <td>
-                                        Apellido Paterno:                                
-                                        <div class="form-group">
-                                            <input class="form-control" type="text" id="apellidoPaterno" name="apellidoPaterno" style="height: 30px; width: 80%;" placeholder="Apellido Paterno" value="<?php echo logData::getData('apellidoPaterno'); ?>" disabled/>
+                                        <div>
+                                            <canvas id="myChart2" width="310" height="310"></canvas>
                                         </div>
                                         </td>
                                         </tr>
-                                        <tr>
-                                        <td>
-                                        Apellido Materno:
-                                        <div class="form-group">
-                                            <input class="form-control" type="text" id="apellidoMaterno" name="apellidoMaterno" style="height: 30px; width: 80%;" placeholder="Apellido Materno" value="<?php echo logData::getData('apellidoMaterno'); ?>" disabled/>
-                                        </div>
-                                        </td>
-                                        <td>
-                                        Domicilio:
-                                        <div class="form-group">
-                                            <input class="form-control" type="text" id="Domicilio"name="Domicilio" placeholder="Domicilio" style="height: 30px; width: 80%;" value="<?php echo logData::getData('Domicilio'); ?>" disabled/>
-                                        </div>
-                                        </td>
-                                        </td>
-                                        <tr>
-                                        <td>
-                                        Código postal:
-                                        <div class="form-group">
-                                            <input class="form-control" type="number" placeholder="Código Postal" id="codigoPostal" name="codigoPostal" style="height: 30px; width: 80%;" value="<?php echo logData::getData('codigoPostal'); ?>" disabled/>
-                                        </div>
-                                        </td>
-                                        <td>
-                                        Teléfono:
-                                        <div class="form-group">
-                                            <input class="form-control" type="number" placeholder="Teléfono domiciliar" id="domTel" name="domTel" style="height: 30px; width: 80%;" value="<?php echo logData::getData('telefonoDomiciliar'); ?>" disabled/>
-                                        </div>
-                                        </td>
-                                        </tr>
-                                        <tr>
-                                        <td>
-                                        Celular:
-                                        <div class="form-group">
-                                            <input class="form-control" type="number" placeholder="Teléfono Celular" id="celTel" name="celTel" style="height: 30px; width: 80%;" value="<?php echo logData::getData('telefonoCelular'); ?>" disabled/>
-                                        </div>
-                                        </td>
-                                        <td>
-                                        Correo:
-                                        <div class="form-group">
-                                            <input class="form-control" type="email" placeholder="Correo Electrónico" id="email" name="email" style="height: 30px; width: 80%;" value="<?php echo logData::getData('email'); ?>" disabled/>
-                                        </div>
-                                        </td>
-                                        </tr>
-                                        <tr>
-                                        <td>
-                                        Sexo:
-                                        <div class="form-group">
-                                            <input class="form-control" type="genero" placeholder="genero" id="genero" name="genero" style="height: 30px; width: 80%;" value="<?php echo logData::getData('genero'); ?>" disabled/>
-                                        </div>
-                                        </td>
-                                        <td>
-                                        No. Seguridad social:
-                                        <div class="form-group">
-                                            <input class="form-control" type="text" placeholder="No. de Seguridad social" id="seguroSocial" name="seguroSocial" style="height: 30px; width: 80%;" value="<?php echo logData::getData('noSeguroSocial'); ?>" disabled/>
-                                        </div>
-                                       </td>
-                                        </tr>
-                                        <tr>
-                                        <td>
-                                        Fecha de nacimiento:
-                                        <div class="form-group">
-                                            <input class="form-control" type="date" placeholder="Fecha de nacimiento" id="fechaNacimiento" name="fechaNacimiento" style="height: 30px; width: 80%;" value="<?php echo logData::getData('fechaNacimiento'); ?>" disabled/>
-                                        </div>
-                                        </td>
-                                        
-                                        <td>
-                                        <?php
-                                            $diff = abs(strtotime(date('Y-m-d')) - strtotime(logData::getData('fechaNacimiento')));
-                                            $years = floor($diff / (365*60*60*24));
-                                        ?>
-                                        Edad:
-                                        <div class="form-group">
-                                            <label class="form-control" id="edad" style="height: 30px; width: 80%;" ><?php echo ($years); ?></label>
-                                        </div>
-                                        </td>
-                                        </tr>
-                                        <tr>
-                                        <td>
-                                        Ocupación:
-                                        <div class="form-group">
-                                            <input class="form-control" type="text" placeholder="Ocupación" id="ocupacion" name="ocupacion"  style="height: 30px; width: 80%;" value="<?php echo logData::getData('Ocupacion'); ?>" disabled/>
-                                        </div>
-                                        </td>
-                                        </tr>
-                                    </table>
-                                        
+                                        </table>
                                     </div>
                                 </div>
                                 
-                            </div>
-                        </div>
-                        <!-- /.panel -->
+                        
 
-            </div>
-            <!-- /.row -->
-        </div>
-        <!-- /#page-wrapper -->
 
     <!-- jQuery -->
     <script src="../../dataSource/js/jquery/jquery.min.js"></script>
@@ -258,6 +197,54 @@
         $('#dataTables-example').DataTable({
             responsive: true
         });
+    });
+    var data = {
+    datasets: [{
+        data: [<?php echo $nuevos.",".$diferido.",".$espera;?>],
+        
+backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+
+            ]
+    }],
+
+    // These labels appear in the legend and in the tooltips when hovering different arcs
+    labels: [
+        'Nueva',
+        'Diferido',
+        'Espera'
+    ]}
+    var ctx = document.getElementById("myChart");
+    var myDoughnutChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: data
+    });
+
+
+var data2 = {
+    datasets: [{
+        data: [<?php echo $completado.",".$sin.",".$todo;?>],
+        
+backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+
+            ]
+    }],
+
+    // These labels appear in the legend and in the tooltips when hovering different arcs
+    labels: [
+        'Completados',
+        'Sin completar',
+        'Todos'
+    ]}
+    var ctx2 = document.getElementById("myChart2");
+    var myDoughnutChart = new Chart(ctx2, {
+        type: 'doughnut',
+        data: data2
     });
     </script>
     

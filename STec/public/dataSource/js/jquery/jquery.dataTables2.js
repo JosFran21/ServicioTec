@@ -11364,7 +11364,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sEmptyTable": "No hay pacientes",
+			"sEmptyTable": "No hay usuarios",
 	
 	
 			/**
@@ -11396,7 +11396,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfo": "Mostrando _START_ a _END_ de _TOTAL_ Pacientes",
+			"sInfo": "Mostrando _START_ a _END_ de _TOTAL_ usuarios",
 	
 	
 			/**
@@ -11417,7 +11417,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoEmpty": "Mostrando 0 a 0 de 0 Pacientes",
+			"sInfoEmpty": "Mostrando 0 a 0 de 0 usuarios",
 	
 	
 			/**
@@ -11557,7 +11557,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sLengthMenu": "Mostrar _MENU_ Pacientes",
+			"sLengthMenu": "Mostrar _MENU_ usuarios",
 	
 	
 			/**
